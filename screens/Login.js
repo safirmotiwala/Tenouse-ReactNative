@@ -15,17 +15,21 @@ import { Images, argonTheme } from "../constants";
 const { width, height } = Dimensions.get("screen");
 const keys = require('../config/keys');
 import Toast from 'react-native-simple-toast';
+
 const mainController = require('../controllers/main');
 
 
 // class Register extends React.Component {
-function Register({navigation}) {
+function Login({navigation}) {
 
-  const [firstName,setfirstName] = useState("")
-  const [lastName,setlastName] = useState("")
-  const [fullName,setfullName] = useState("")
-  const [city,setCity] = useState("")
-  const [gender,setGender] = useState("")
+  // React.useEffect(() => {
+  //   Toast.show({
+  //     text1: 'Hello',
+  //     text2: 'This is some something 👋'
+  //   });
+  // }, []);
+
+
   const [password,setPassword] = useState("")
   const [email,setEmail] = useState("")
   const [loadPage, setLoadPage] = useState(false)
@@ -45,14 +49,13 @@ function Register({navigation}) {
     }
   }
 
+  const signinUrl = keys.backendApiEndpoint + '/signin';
 
-  const signupUrl = keys.backendApiEndpoint + '/signup';
+  const signin = async () => {
 
-  const signup = () => {
+    console.log(email, password)
 
-    console.log(firstName, lastName, city, email, password)
-
-    if (!firstName || !lastName || !city || !password || !email) {
+    if (!password || !email) {
       console.log("Data missing");
       Toast.show('Please enter value in all fields', Toast.LONG, Toast.TOP, [
         'UIAlertController',
@@ -79,24 +82,18 @@ function Register({navigation}) {
 
     
 
-    fetch(signupUrl, {
+    fetch(signinUrl, {
       method:"post",
       headers:{
           "Content-Type":"application/json"
       },
       body:JSON.stringify({
-          firstName,
-          lastName,
-          fullName : firstName + " " + lastName,
-          city,
-          gender: 'Male',
-          password,
-          email,
-          // pic:url
+        password,
+        email
       })
     }).then(res=>res.json())
-    .then(data=>{
-        //console.log(data)
+    .then(async data=>{
+        console.log(data)
         if(data.error){
             // toast.error(data.error, {
             //   position: "top-right",
@@ -119,8 +116,9 @@ function Register({navigation}) {
             //   draggable: true,
             //   progress: undefined,
             //   });
-            Toast.show(data.message);
-            navigation.navigate('Login')
+            await mainController.setToken(data.token, data.user);
+            Toast.show('Logged-In Successfully');
+            navigation.navigate('Home')
         }
     }).catch(err=>{
         console.log(err)
@@ -133,11 +131,8 @@ function Register({navigation}) {
 
   // render() {
     return (
-
-      
       <Block flex middle>
-      {loadPage ? 
-      <>
+      
         <StatusBar hidden />
         <ImageBackground
           source={Images.RegisterBackground}
@@ -192,60 +187,8 @@ function Register({navigation}) {
                     behavior="padding"
                     enabled
                   >
-                    <Block width={width * 0.8} style={{ marginBottom: 5 }}>
-                      <Input
-                        borderless
-                        placeholder="First Name"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="hat-3"
-                            family="ArgonExtra"
-                            style={styles.inputIcons}
-                          />
-                        }
-                        type = "ascii-capable"
-                        value = { firstName }
-                        onChangeText={(e)=>setfirstName(e)}
-                      />
-                    </Block>
-                    <Block width={width * 0.8} style={{ marginBottom: 5 }}>
-                      <Input
-                        borderless
-                        placeholder="Last Name"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="hat-3"
-                            family="ArgonExtra"
-                            style={styles.inputIcons}
-                          />
-                        }
-                        type = "ascii-capable"
-                        value = { lastName }
-                        onChangeText={(e)=>setlastName(e)}
-                      />
-                    </Block>
-                    <Block width={width * 0.8} style={{ marginBottom: 5 }}>
-                      <Input
-                        borderless
-                        placeholder="City"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="map-big"
-                            family="ArgonExtra"
-                            style={styles.inputIcons}
-                          />
-                        }
-                        type = "ascii-capable"
-                        value = { city }
-                        onChangeText={(e)=>setCity(e)}
-                      />
-                    </Block>
+                    
+                    
                     <Block width={width * 0.8} style={{ marginBottom: 5 }}>
                       <Input
                         borderless
@@ -314,10 +257,10 @@ function Register({navigation}) {
                     </Block> */}
                     <Block middle>
                       <Button color="primary" style={styles.createButton}
-                      onPress={()=>signup()}
+                      onPress={()=>signin()}
                       >
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                          CREATE ACCOUNT
+                          LOGIN
                         </Text>
                       </Button>
                     </Block>
@@ -327,7 +270,6 @@ function Register({navigation}) {
             </Block>
           </Block>
         </ImageBackground>
-        </>: <Text>loading...</Text> }
       </Block>
     );
   // }
@@ -386,4 +328,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Register;
+export default Login;
