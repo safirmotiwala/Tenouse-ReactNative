@@ -88,8 +88,8 @@ function Home ({navigation}) {
           <Text>Loading...</Text>
           }
 
-          <Button title = 'Logout'
-          onPress= {() => { logout() }}><Text>Logout</Text></Button>
+          {/* <Button title = 'Logout'
+          onPress= {() => { logout() }}><Text>Logout</Text></Button> */}
       </Block>
     );
   
