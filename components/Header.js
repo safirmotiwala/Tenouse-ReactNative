@@ -7,12 +7,22 @@ import Icon from './Icon';
 import Input from './Input';
 import Tabs from './Tabs';
 import argonTheme from '../constants/Theme';
+const mainController = require('../controllers/main');
+import Toast from 'react-native-simple-toast';
 
 const { height, width } = Dimensions.get('window');
 const iPhoneX = () => Platform.OS === 'ios' && (height === 812 || width === 812 || height === 896 || width === 896);
 
+const logout = async () => {
+  await mainController.unsetToken();
+  Toast.show('Log Out Successful');
+  // navigation.navigate('Login')
+}
+
 const BellButton = ({isWhite, style, navigation}) => (
-  <TouchableOpacity style={[styles.button, style]} onPress={() => navigation.navigate('Pro')}>
+  <TouchableOpacity style={[styles.button, style]} 
+  //  onPress={() => navigation.navigate('Pro')}
+   >
     <Icon
       family="ArgonExtra"
       size={16}
@@ -24,11 +34,16 @@ const BellButton = ({isWhite, style, navigation}) => (
 );
 
 const BasketButton = ({isWhite, style, navigation}) => (
-  <TouchableOpacity style={[styles.button, style]} onPress={() => navigation.navigate('Pro')}>
+  <TouchableOpacity style={[styles.button, style]} 
+  onPress={() => {
+    logout()
+    navigation.navigate('Login')
+    }}
+  >
     <Icon
       family="ArgonExtra"
       size={16}
-      name="basket"
+      name="spaceship"
       color={argonTheme.COLORS[isWhite ? 'WHITE' : 'ICON']}
     />
   </TouchableOpacity>
@@ -122,18 +137,24 @@ class Header extends React.Component {
   renderOptions = () => {
     const { navigation, optionLeft, optionRight } = this.props;
 
+    
+
     return (
       <Block row style={styles.options}>
-        <Button shadowless style={[styles.tab, styles.divider]} onPress={() => navigation.navigate('Pro')}>
+        <Button shadowless style={[styles.tab, styles.divider]} 
+        // onPress={() => navigation.navigate('Pro')}
+        >
           <Block row middle>
-            <Icon name="diamond" family="ArgonExtra" style={{ paddingRight: 8 }} color={argonTheme.COLORS.ICON} />
-            <Text size={16} style={styles.tabTitle}>{optionLeft || 'Beauty'}</Text>
+            <Icon size={16} name="shop" family="ArgonExtra" style={{ paddingRight: 8 }} color={argonTheme.COLORS.ICON} />
+            <Text size={16} style={styles.tabTitle}>{optionLeft || 'House'}</Text>
           </Block>
         </Button>
-        <Button shadowless style={styles.tab} onPress={() => navigation.navigate('Pro')}>
+        <Button shadowless style={[styles.tab]} 
+        
+        >
           <Block row middle>
-            <Icon size={16} name="bag-17" family="ArgonExtra" style={{ paddingRight: 8 }} color={argonTheme.COLORS.ICON}/>
-            <Text size={16} style={styles.tabTitle}>{optionRight || 'Fashion'}</Text>
+            <Icon size={16} name="hat-3" family="ArgonExtra" style={{ paddingRight: 8 }} color={argonTheme.COLORS.ICON}/>
+            <Text size={16} style={styles.tabTitle}>{optionRight || 'Roommate'}</Text>
           </Block>
         </Button>
       </Block>
