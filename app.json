@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Argon FREE React Native",
-    "slug": "argon-free-react-native",
+    "name": "Tenouse",
+    "slug": "tenouse",
     "privacy": "public",
     "platforms": [
       "ios",
@@ -24,6 +24,6 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": "Argon React Native, based on Argon Design System. Coded by Creative Tim"
+    "description": "AI based intimation of houses for Tenants, Landlords and Other Folks"
   }
 }

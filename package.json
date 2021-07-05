@@ -1,7 +1,7 @@
 {
-  "name": "argon-react-native",
+  "name": "tenouse",
   "version": "1.7.0",
-  "description": "Argon React Native, based on Argon Design System. Coded by Creative Tim",
+  "description": "AI based intimation of houses for Tenants, Landlords and Other Folks",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -43,27 +43,10 @@
     "babel-preset-expo": "8.3.0"
   },
   "keywords": [
-    "argon react native",
-    "argon design system",
-    "argon app react native",
-    "argon iOS",
-    "react native iOS",
-    "creative tim",
-    "argon Android",
-    "react native ui kit",
-    "react native expo",
-    "freebie",
-    "react native argon design",
-    "react native galio",
-    "galio argon free",
-    "galio react native free app",
-    "argon expo react native",
-    "react native ui template"
+
   ],
-  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
+  "author": "tenouse.ai",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/creativetimofficial/argon-react-native/issues"
-  },
-  "homepage": "https://demos.creative-tim.com/argon-react-native"
+  }
 }
