@@ -128,7 +128,7 @@ class Details extends React.Component {
               color={theme.COLORS.PRIMARY}
               onPress={() => navigation.navigate("Home")}
             >
-              View All
+            
             </Text>
           </Block>
           <Block
