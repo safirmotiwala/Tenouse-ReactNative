@@ -14,10 +14,12 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
   const insets = useSafeArea();
   const screens = [
     "Home", 
+    "Roommate",
     "Profile",
     "Account",
     "Elements",
     "Articles",
+    "Details"
   ];
   return (
     <Block

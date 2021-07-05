@@ -5,9 +5,12 @@ import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback } from 'react-n
 import { Block, Text, theme } from 'galio-framework';
 
 import { argonTheme } from '../constants';
+import { CommonActions } from '@react-navigation/native';
 
 
 class Card extends React.Component {
+
+
   render() {
     const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
     
@@ -20,11 +23,20 @@ class Card extends React.Component {
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
       styles.shadow
     ];
-
+    console.log(item.id)
+    
     return (
       <Block row={horizontal} card flex style={cardContainer}>
         <TouchableWithoutFeedback 
-        // onPress={() => navigation.navigate('Pro')}
+         
+          onPress={() => navigation.dispatch(
+            CommonActions.navigate({
+              name: 'Details',
+              params: {data:item.id}
+            })
+          )}
+        
+         
         >
           <Block flex style={imgContainer}>
             <Image source={{uri: item.image}} style={imageStyles} />
@@ -35,7 +47,7 @@ class Card extends React.Component {
         >
           <Block flex space="between" style={styles.cardDescription}>
             <Text size={14} style={styles.cardTitle}>{item.title}</Text>
-            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold>{item.cta}</Text>
+            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold >{item.cta}</Text>
           </Block>
         </TouchableWithoutFeedback>
       </Block>

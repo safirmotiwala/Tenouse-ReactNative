@@ -1,4 +1,5 @@
 import React from "react";
+import {useState,useEffect} from "react";
 import {
   StyleSheet,
   Dimensions,
@@ -12,13 +13,47 @@ import { Block, Text, theme } from "galio-framework";
 import { Button } from "../components";
 import { Images, argonTheme } from "../constants";
 import { HeaderHeight } from "../constants/utils";
-
+const mainController = require('../controllers/main');
 const { width, height } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-class Profile extends React.Component {
-  render() {
+
+
+// class Profile extends React.Component {
+  function Profile({navigation}) {
+    const [password,setPassword] = useState("")
+    const [name,setName] = useState("")
+    const [pic,setPic] = useState("")
+    const [premium,setPremium] = useState("")
+    const [followers,setFollowers] = useState("")
+    const [following,setFollowing] = useState("")
+
+    const [email,setEmail] = useState("")
+    const [loadPage, setLoadPage] = useState(false)
+    React.useEffect(() => {
+      checkLogin();
+    }, []);
+    
+    const checkLogin = async () => {
+      const { token, user } = await mainController.getToken();
+      let use = JSON.parse(user)
+      if (token && user) {
+        console.log(use.fullName)
+        setName(use.fullName)
+        setPic(use.pic)
+        setFollowers(use.followers.length)
+        setFollowing(use.following.length)
+        if (use.premium) {
+          setPremium("Premium Member")
+        } else {
+          setPremium("Non Premium User")
+        }
+      }else {
+        setLoadPage(true);
+      }
+    }
+    
     return (
       <Block flex style={styles.profile}>
         <Block flex>
@@ -34,7 +69,7 @@ class Profile extends React.Component {
               <Block flex style={styles.profileCard}>
                 <Block middle style={styles.avatarContainer}>
                   <Image
-                    source={{ uri: Images.ProfilePicture }}
+                    source={{ uri: pic}}
                     style={styles.avatar}
                   />
                 </Block>
@@ -66,9 +101,9 @@ class Profile extends React.Component {
                         color="#525F7F"
                         style={{ marginBottom: 4 }}
                       >
-                        2K
+                        {followers}
                       </Text>
-                      <Text size={12} color={argonTheme.COLORS.TEXT}>Orders</Text>
+                      <Text size={12} color={argonTheme.COLORS.TEXT}>Followers</Text>
                     </Block>
                     <Block middle>
                       <Text
@@ -88,19 +123,19 @@ class Profile extends React.Component {
                         size={18}
                         style={{ marginBottom: 4 }}
                       >
-                        89
+                        {following}
                       </Text>
-                      <Text size={12} color={argonTheme.COLORS.TEXT}>Comments</Text>
+                      <Text size={12} color={argonTheme.COLORS.TEXT}>Following</Text>
                     </Block>
                   </Block>
                 </Block>
                 <Block flex>
                   <Block middle style={styles.nameInfo}>
                     <Text bold size={28} color="#32325D">
-                      Jessica Jones, 27
+                      {name}
                     </Text>
                     <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                      San Francisco, USA
+                      {premium}
                     </Text>
                   </Block>
                   <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
@@ -277,7 +312,7 @@ class Profile extends React.Component {
       </Block>
     );
   }
-}
+
 
 const styles = StyleSheet.create({
   profile: {

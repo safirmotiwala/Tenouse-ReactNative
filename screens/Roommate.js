@@ -11,21 +11,20 @@ const keys = require('../config/keys');
 
 
 // class Home extends React.Component {
-function Home ({navigation}) {
-  console.log("navgation",navigation)
+function Roommate ({navigation}) {
 
   const [data,setData] = useState([]);
   const [articles, setArticles] = useState([]);
 
   React.useEffect(() => {
     if (!articles.length)
-      getPosts()
+      getRoommates()
   })
 
-  let allPostsUrl = keys.backendApiEndpoint + '/lastsixposts';
+  let allPostsUrl = keys.backendApiEndpoint + '/allroommates';
 
   
-  const getPosts = async () => {
+  const getRoommates = async () => {
     const { token, user } = await mainController.getToken();
     fetch(allPostsUrl,{
       headers:{
@@ -33,20 +32,15 @@ function Home ({navigation}) {
       }
     }).then(res=>res.json())
     .then(result=>{
-        console.log(result.selectedPosts.length)
-        setData(result.selectedPosts)
         let articlesCollective = [];
-        for (let i =0 ; i<result.selectedPosts.length; i++ ) {
+        for (let i =0 ; i<10; i++ ) {
           articlesCollective.push({
-            id: result.selectedPosts[i]._id,
-            title: result.selectedPosts[i].question6 + " " + result.selectedPosts[i].question7 + "\n" + result.selectedPosts[i].house_struct + ", " + result.selectedPosts[i].house_type,
-            price: "Rs " + result.selectedPosts[i].question3,
-            image: result.selectedPosts[i].pic1,
-            cta: 'View House'
+            title: result.posts[i].postedBy.fullName + "\n" + result.posts[i].question8 + " " + result.posts[i].question9,
+            image: result.posts[i].pic1,
+            cta: 'View Roommate'
           })
 
         }
-        console.log(articlesCollective)
         setArticles(articlesCollective);
     })
   }
@@ -107,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Roommate;

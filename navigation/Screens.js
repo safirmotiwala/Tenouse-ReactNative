@@ -15,7 +15,9 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Login from '../screens/Login';
 import Elements from "../screens/Elements";
+import Roommate from "../screens/Roommate";
 import Articles from "../screens/Articles";
+import Details from "../screens/Details";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -178,6 +180,89 @@ function HomeStack(props) {
   );
 }
 
+
+function DetailsStack(props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Details"
+        component={Details}
+        // initialParams={{data:"vinayak"}}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Details"
+              search
+              options
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+     />
+     
+      <Stack.Screen
+        name="Pro"
+        component={Pro}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              back
+              white
+              transparent
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function RoommateStack(props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Roommate"
+        component={Roommate}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Roommate"
+              search
+              options
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+      />
+      <Stack.Screen
+        name="Pro"
+        component={Pro}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              back
+              white
+              transparent
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 export default function OnboardingStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="none">
@@ -225,11 +310,13 @@ function AppStack(props) {
       initialRouteName="Login"
     >
       <Drawer.Screen name="Home" component={HomeStack} />
+      <Drawer.Screen name="Roommate" component={RoommateStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Login" component={Login} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
+      <Drawer.Screen name="Details" component={DetailsStack}/>
     </Drawer.Navigator>
   );
 }
