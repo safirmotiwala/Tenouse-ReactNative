@@ -36,15 +36,22 @@ const categories = [
   }
 ];
 
-class Details extends React.Component {
-  renderProduct = (item, index) => {
-    const { navigation } = this.props;
+// class Details extends React.Component {
+
+function Details ({ navigation, route }) {
+
+  const houseId = route.params.data;
+
+  console.log("House Id : ", houseId);
+
+  const renderProduct = (item, index) => {
+    // const { navigation } = this.props;
 
     return (
       <TouchableWithoutFeedback
         style={{ zIndex: 3 }}
         key={`product-${item.title}`}
-        onPress={() => navigation.navigate("Pro", { product: item })}
+        // onPress={() => navigation.navigate("Pro", { product: item })}
       >
         <Block center style={styles.productItem}>
           <Image
@@ -78,7 +85,7 @@ class Details extends React.Component {
     );
   };
 
-  renderCards = () => {
+  const renderCards = () => {
     return (
       <Block flex style={styles.group}>
         <Text bold size={16} style={styles.title}>
@@ -101,7 +108,7 @@ class Details extends React.Component {
             >
               {categories &&
                 categories.map((item, index) =>
-                  this.renderProduct(item, index)
+                  renderProduct(item, index)
                 )}
             </ScrollView>
           </Block>
@@ -110,8 +117,7 @@ class Details extends React.Component {
     );
   };
 
-  renderAlbum = () => {
-    const { navigation } = this.props;
+  const renderAlbum = () => {
 
     return (
       <Block
@@ -151,18 +157,17 @@ class Details extends React.Component {
     );
   };
 
-  render() {
     return (
       <Block flex center>
         <ScrollView
           showsVerticalScrollIndicator={false}
         >
-          {this.renderCards()}
-          {this.renderAlbum()}
+          {renderCards()}
+          {renderAlbum()}
         </ScrollView>
       </Block>
     );
-  }
+  
 }
 
 const styles = StyleSheet.create({

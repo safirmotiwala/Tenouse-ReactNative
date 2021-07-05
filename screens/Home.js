@@ -37,6 +37,7 @@ function Home ({navigation}) {
         setData(result.selectedPosts)
         let articlesCollective = [];
         for (let i =0 ; i<result.selectedPosts.length; i++ ) {
+          console.log("Id : ", result.selectedPosts[i]._id);
           articlesCollective.push({
             id: result.selectedPosts[i]._id,
             title: result.selectedPosts[i].question6 + " " + result.selectedPosts[i].question7 + "\n" + result.selectedPosts[i].house_struct + ", " + result.selectedPosts[i].house_type,
