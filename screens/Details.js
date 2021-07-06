@@ -20,52 +20,22 @@ const { width } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 const cardWidth = width - theme.SIZES.BASE * 2;
 
+// class Details extends React.Component {
 
+function Details ({ navigation, route }) {
 
+  const houseId = route.params.data;
 
+  console.log("House Id : ", houseId);
 
-
-
-function Details({navigation}){
-
-  const [articles, setArticles] = useState([]);
-
-  React.useEffect(() => {
-      getHouseDetails()
-  })
-  
-  let housedetailsurl = keys.backendApiEndpoint + '/house/5fe43278955e0833f5bec396';
-  const categories = []
-  const getHouseDetails = async () => {
-  const { token, user } = await mainController.getToken();
-  fetch(housedetailsurl,{
-    headers:{
-        "Authorization":"Bearer " + token
-    }
-  }).then(res=>res.json())
-  .then(result=>{
-      console.log(result)
-      console.log("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
-      // for (let i =0 ; i<10; i++ ) {
-      //   categories.push({
-      //     title: result.posts[i].postedBy.fullName + "\n" + result.posts[i].question8 + " " + result.posts[i].question9,
-      //     image: result.posts[i].pic1,
-      //     price: ,
-      //     description: 
-      //   })
-
-      // }
-      // setArticles(articlesCollective);
-  })
-}
-  renderProduct = (item, index) => {
-   
+  const renderProduct = (item, index) => {
+    // const { navigation } = this.props;
 
     return (
       <TouchableWithoutFeedback
         style={{ zIndex: 3 }}
         key={`product-${item.title}`}
-        onPress={() => navigation.navigate("Pro", { product: item })}
+        // onPress={() => navigation.navigate("Pro", { product: item })}
       >
         <Block center style={styles.productItem}>
           <Image
@@ -99,7 +69,7 @@ function Details({navigation}){
     );
   };
 
-  renderCards = () => {
+  const renderCards = () => {
     return (
       <Block flex style={styles.group}>
         <Text bold size={16} style={styles.title}>
@@ -122,7 +92,7 @@ function Details({navigation}){
             >
               {categories &&
                 categories.map((item, index) =>
-                  this.renderProduct(item, index)
+                  renderProduct(item, index)
                 )}
             </ScrollView>
           </Block>
@@ -131,8 +101,7 @@ function Details({navigation}){
     );
   };
 
-  renderAlbum = () => {
-   
+  const renderAlbum = () => {
 
     return (
       <Block
@@ -172,19 +141,18 @@ function Details({navigation}){
     );
   };
 
-
     return (
       <Block flex center>
         <ScrollView
           showsVerticalScrollIndicator={false}
         >
-          {this.renderCards()}
-          {this.renderAlbum()}
+          {renderCards()}
+          {renderAlbum()}
         </ScrollView>
       </Block>
     );
-  }
-
+  
+}
 
 const styles = StyleSheet.create({
   title: {

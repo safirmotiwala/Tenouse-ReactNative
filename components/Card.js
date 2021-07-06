@@ -23,19 +23,32 @@ class Card extends React.Component {
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
       styles.shadow
     ];
-    console.log(item.id)
+    console.log("ItemId in Card Class : ", item.id);
     
     return (
       <Block row={horizontal} card flex style={cardContainer}>
         <TouchableWithoutFeedback 
          
-          onPress={() => navigation.dispatch(
-            CommonActions.navigate({
-              name: 'Details',
-              params: {data:item.id}
-            })
-          )}
+          // onPress={() => navigation.dispatch(
+          //   CommonActions.navigate({
+          //     name: 'Details',
+          //     params: {data:item.id}
+          //   })
+          // )}
         
+          // onPress={() => navigation.navigate({
+          //   routeName : 'Details', params : {  
+          //   data: item.id
+          //   }
+          // })
+          // } 
+
+          onPress = { () => navigation.navigate('Details', {
+            screen: 'Details',
+            params: { data:item.id },
+          })
+
+          }
          
         >
           <Block flex style={imgContainer}>
