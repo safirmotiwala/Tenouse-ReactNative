@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, {useState,useEffect,useContext} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -12,33 +13,53 @@ import { Block, Text, theme } from "galio-framework";
 //argon
 import { articles, Images, argonTheme } from "../constants/";
 import { Card } from "../components/";
+const keys = require('../config/keys');
 
 const { width } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 const cardWidth = width - theme.SIZES.BASE * 2;
-const categories = [
-  {
-    title: "Pune Maharashtra",
-    description:
-      "Bright and Spacious Starter Home, Cozy Bungalow in the Hollywood Hills",
-    image:
-    "https://res.cloudinary.com/safcloud/image/upload/v1606385427/TenouseDataGen/Building/SmartBuilding_iygbxj.jpg",
-    price: "$125"
-  },
-  {
-    title: "Pune Maharashtra",
-    description:
-      "Newly Remodeled Mid-Century Home, Fully Furnished",
-    image:
-    "https://media.architecturaldigest.com/photos/571e97c5741fcddb16b559c9/master/w_1600%2Cc_limit/modernist-decor-inspiration-01.jpg",
-    price: "Interior Furnishing"
-  }
-];
 
-class Details extends React.Component {
+
+
+
+
+
+
+function Details({navigation}){
+
+  const [articles, setArticles] = useState([]);
+
+  React.useEffect(() => {
+      getHouseDetails()
+  })
+  
+  let housedetailsurl = keys.backendApiEndpoint + '/house/5fe43278955e0833f5bec396';
+  const categories = []
+  const getHouseDetails = async () => {
+  const { token, user } = await mainController.getToken();
+  fetch(housedetailsurl,{
+    headers:{
+        "Authorization":"Bearer " + token
+    }
+  }).then(res=>res.json())
+  .then(result=>{
+      console.log(result)
+      console.log("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
+      // for (let i =0 ; i<10; i++ ) {
+      //   categories.push({
+      //     title: result.posts[i].postedBy.fullName + "\n" + result.posts[i].question8 + " " + result.posts[i].question9,
+      //     image: result.posts[i].pic1,
+      //     price: ,
+      //     description: 
+      //   })
+
+      // }
+      // setArticles(articlesCollective);
+  })
+}
   renderProduct = (item, index) => {
-    const { navigation } = this.props;
+   
 
     return (
       <TouchableWithoutFeedback
@@ -111,7 +132,7 @@ class Details extends React.Component {
   };
 
   renderAlbum = () => {
-    const { navigation } = this.props;
+   
 
     return (
       <Block
@@ -151,7 +172,7 @@ class Details extends React.Component {
     );
   };
 
-  render() {
+
     return (
       <Block flex center>
         <ScrollView
@@ -163,7 +184,7 @@ class Details extends React.Component {
       </Block>
     );
   }
-}
+
 
 const styles = StyleSheet.create({
   title: {
