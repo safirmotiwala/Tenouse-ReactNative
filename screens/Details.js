@@ -1,5 +1,6 @@
 
 import React, {useState,useEffect,useContext} from 'react';
+const mainController = require('../controllers/main');
 import {
   ScrollView,
   StyleSheet,
@@ -27,6 +28,68 @@ function Details ({ navigation, route }) {
   const houseId = route.params.data;
 
   console.log("House Id : ", houseId);
+
+  const [data,setData] = useState([]);
+  const [articles, setArticles] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [img, setImg] = useState([]);
+  
+  React.useEffect(() => {
+      
+      getDetails()
+  })
+
+  let getDetailsurl = keys.backendApiEndpoint + `/house/${houseId}`;
+  
+  let tp = []
+  let im = []
+  const getDetails = async () => {
+    const { token, user } = await mainController.getToken();
+    fetch(getDetailsurl,{
+      headers:{
+          "Authorization":"Bearer " + token
+      }
+    }).then(res=>res.json())
+    .then(result=>{
+        
+        console.log("hello world")
+        console.log(result)
+        console.log(result.house.question5)
+        
+        
+        tp.push({
+          title: result.house.question5 + " " + result.house.question6,
+          image: result.house.pic1,
+          description: result.house.house_type + " " + result.house.house_struct
+        })
+        tp.push({
+          title: result.house.question7 + " " + result.house.question8,
+          image: result.house.pic2,
+          description: result.house.house_type + " " + result.house.house_struct
+        })
+        tp.push({
+          title: result.house.question9,
+          image: result.house.pic3,
+          description: result.house.house_type + " " + result.house.house_struct
+        })
+
+        im.push({
+          image: result.house.pic1
+        })
+        im.push({
+          image: result.house.pic2
+        })
+        im.push({
+          image: result.house.pic3
+        })
+      
+        setCategories(tp);
+        setImg(im);
+       
+    })
+  }
+
+
 
   const renderProduct = (item, index) => {
     // const { navigation } = this.props;
@@ -126,15 +189,28 @@ function Details ({ navigation, route }) {
             space="between"
             style={{ marginTop: theme.SIZES.BASE, flexWrap: "wrap" }}
           >
-            {Images.Viewed.map((img, index) => (
-              <Block key={`viewed-${img}`} style={styles.shadow}>
+            
+              <Block key={Math.random()} style={styles.shadow}>
                 <Image
                   resizeMode="cover"
-                  source={{ uri: "https://media.architecturaldigest.com/photos/571e97c5741fcddb16b559c9/master/w_1600%2Cc_limit/modernist-decor-inspiration-01.jpg" }}
+                  source={{ uri: "http://res.cloudinary.com/safcloud/image/upload/v1608753061/tenousedata/dea0qtoqrgo29alpuqea.jpg"}}
                   style={styles.albumThumb}
                 />
-              </Block>
-            ))}
+                </Block>
+                <Block key={Math.random()} style={styles.shadow}>
+                <Image
+                  resizeMode="cover"
+                  source={{ uri: "http://res.cloudinary.com/safcloud/image/upload/v1608753061/tenousedata/dea0qtoqrgo29alpuqea.jpg" }}
+                  style={styles.albumThumb}
+                />
+                </Block>
+                <Block key={Math.random()} style={styles.shadow}></Block>
+                <Image
+                  resizeMode="cover"
+                  source={{ uri: "http://res.cloudinary.com/safcloud/image/upload/v1608753061/tenousedata/dea0qtoqrgo29alpuqea.jpg"}}
+                  style={styles.albumThumb}
+                />
+              
           </Block>
         </Block>
       </Block>

@@ -1,5 +1,6 @@
-import React from "react";
-import {useState,useEffect} from "react";
+import React,{useState,useEffect} from "react";
+
+const keys = require('../config/keys');
 import {
   StyleSheet,
   Dimensions,
@@ -28,9 +29,10 @@ const thumbMeasure = (width - 48 - 32) / 3;
     const [premium,setPremium] = useState("")
     const [followers,setFollowers] = useState("")
     const [following,setFollowing] = useState("")
-
+    let id;
     const [email,setEmail] = useState("")
     const [loadPage, setLoadPage] = useState(false)
+    const [posted,setPosted] = useState([])
     React.useEffect(() => {
       checkLogin();
     }, []);
@@ -38,6 +40,8 @@ const thumbMeasure = (width - 48 - 32) / 3;
     const checkLogin = async () => {
       const { token, user } = await mainController.getToken();
       let use = JSON.parse(user)
+      id = use._id;
+      getposts(id);
       if (token && user) {
         console.log(use.fullName)
         setName(use.fullName)
@@ -53,6 +57,29 @@ const thumbMeasure = (width - 48 - 32) / 3;
         setLoadPage(true);
       }
     }
+
+    const getposts = async () => {
+      let getpostsurl = keys.backendApiEndpoint + '/allpost';
+      const { token, user } = await mainController.getToken();
+      fetch(getpostsurl,{
+        headers:{
+            "Authorization":"Bearer " + token
+        }
+      }).then(res=>res.json())
+      .then(result=>{
+          // console.log(result)
+          console.log("result length is :",result.posts.length)
+          let p = []
+          for (let i =0 ; i<result.posts.length; i++ ) {
+            if (result.posts[i].postedBy._id == id){
+              p.push(result.posts[i].pic1)
+            }
+          }
+          setPosted(p)
+      })
+    }
+
+
     
     return (
       <Block flex style={styles.profile}>
@@ -178,7 +205,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
                   </Block>
                   <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
                     <Block row space="between" style={{ flexWrap: "wrap" }}>
-                      {Images.Viewed.map((img, imgIndex) => (
+                      {posted.map((img, imgIndex) => (
                         <Image
                           source={{ uri: img }}
                           key={`viewed-${img}`}
